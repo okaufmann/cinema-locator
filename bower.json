@@ -1,0 +1,25 @@
+{
+  "name": "cinema-locator",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "Oliver Kaufmann <okaufmann91@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/okaufmann/tsbe-web-programmieren-projektarbeit",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "angular": "^1.5.0",
+    "jquery": "^2.2.1",
+    "angular-sanitize": "^1.5.0",
+    "angular-ui-router": "^0.2.18"
+  }
+}
