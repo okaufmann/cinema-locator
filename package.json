@@ -1,5 +1,5 @@
 {
-  "name": "cinema-locator",
+  "name": "cinemaLocator",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "live-server",
-    "start-ts": "tsc --watch & live-server"
+    "start-ts": "tsc --watch & live-server --cors"
   },
   "author": "Oliver Kaufmann <okaufmann91@gmail.com>",
   "license": "MIT"

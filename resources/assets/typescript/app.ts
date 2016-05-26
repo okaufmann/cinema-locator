@@ -4,7 +4,8 @@ import IStateProvider = angular.ui.IStateProvider;
 import IUrlRouterProvider = angular.ui.IUrlRouterProvider;
 import IUiViewScrollProvider = angular.ui.IUiViewScrollProvider;
 
-angular.module('cinema-locator', [
+angular.module('cinemaLocator', [
+    'cinemaLocator.config',
     'ngSanitize',
     'ui.router',
 ]);

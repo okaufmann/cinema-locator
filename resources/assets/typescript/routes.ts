@@ -1,4 +1,4 @@
-﻿angular.module('cinema-locator')
+﻿angular.module('cinemaLocator')
     .config(($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider, $uiViewScrollProvider: any, $httpProvider: ng.IHttpProvider) => {
         // For any unmatched url, redirect to /state1
         $urlRouterProvider.otherwise("/");
