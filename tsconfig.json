@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "outFile": "public/js/app.js",
+        "sourceMap": true
+    },
+  "files": [
+    "resources/assets/typescript/typings/browser.d.ts",
+    "resources/assets/typescript/app.ts"
+  ]
+}

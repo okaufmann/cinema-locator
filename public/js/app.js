@@ -1,6 +1,3 @@
-/**
- * Created by okaufmann on 26.02.2016.
- */
 var views;
 (function (views) {
     var home;
@@ -22,18 +19,15 @@ var views;
         home.HomeController = HomeController;
     })(home = views.home || (views.home = {}));
 })(views || (views = {}));
-/// <reference path="..\typings\browser.d.ts" />
-/// <reference path="views\home\HomeController.ts" /> 
-/// <reference path="includes.ts" />
 angular.module('cinema-locator', [
     'ngSanitize',
     'ui.router',
 ]);
 angular.module('cinema-locator').config(function ($stateProvider, $urlRouterProvider) {
-    // For any unmatched url, redirect to /state1
     $urlRouterProvider.otherwise("/");
     $stateProvider
         .state(views.home.route);
 });
 angular.module('cinema-locator').controller("HomeController", ['$scope',
     function ($scope) { return new views.home.HomeController($scope); }]);
+//# sourceMappingURL=app.js.map
