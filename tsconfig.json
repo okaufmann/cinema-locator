@@ -7,7 +7,6 @@
         "sourceMap": true
     },
   "files": [
-    "resources/assets/typescript/typings/browser.d.ts",
-    "resources/assets/typescript/app.ts"
+    "resources/assets/typescript/includes.ts"
   ]
 }
