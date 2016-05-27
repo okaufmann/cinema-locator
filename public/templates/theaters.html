@@ -11,12 +11,15 @@
                        tooltip-is-open="nothingFound"
                        tooltip-enable="nothingFound">
             </div>
+            <div class="col-md-1">
+                <md-loader ng-show="loading"></md-loader>
+            </div>
             <div class="form-group form-group-lg col-md-6 col-md-offset-5">
                 <button ng-disabled="!mapLoaded"
                         class="btn btn-primary btn-lg"
-                        ng-click="queryTheaters(near)">Go fo it!
+                        ng-click="queryTheaters(near)">
+                    <i class="fa fa-search fa-lg fa-fw pull-left"></i> Go fo it!
                 </button>
-
             </div>
         </form>
         <div class="clearfix"></div>

@@ -24,6 +24,7 @@ namespace views.theaters {
     }
 
     interface IScope extends ng.IScope {
+        loading:boolean;
         clearFavorites();
         favoritedTheaters:models.TheaterDto[];
         nothingFound:boolean;
@@ -44,11 +45,14 @@ namespace views.theaters {
         $scope.mapLoaded = false;
         $scope.maps = {};
         $scope.nothingFound = false;
+        $scope.loading = true;
 
         $scope.queryTheaters = (near:string):void => {
             console.log("queryTheaters near := ", near);
 
             $scope.nothingFound = false;
+
+            $scope.loading = true;
 
             if(_.isEmpty(near)){
                 $scope.nothingFound = true;
@@ -62,8 +66,11 @@ namespace views.theaters {
                 }else{
                     $scope.nothingFound = true;
                 }
+
+                $scope.loading = false;
             },() => {
                 $scope.nothingFound = true;
+                $scope.loading = false;
             });
         }
 
@@ -77,6 +84,8 @@ namespace views.theaters {
             $scope.mapLoaded = true;
 
             $timeout(initFavorites(), 1000);
+
+            $scope.loading = false;
         });
 
         $scope.clearFavorites = () => {

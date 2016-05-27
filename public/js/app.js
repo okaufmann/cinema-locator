@@ -30,7 +30,7 @@ angular.module('cinemaLocator', [
 function mdLoader() {
     return {
         restrict: 'E',
-        template: "\n        <div class=\"md-loader\">\n    <svg class=\"spinner\" width=\"65px\" height=\"65px\" viewBox=\"0 0 66 66\" xmlns=\"http://www.w3.org/2000/svg\">\n   <circle class=\"path\" fill=\"none\" stroke-width=\"6\" stroke-linecap=\"round\" cx=\"33\" cy=\"33\" r=\"30\"></circle>\n</svg></div>",
+        template: "\n        <div class=\"md-loader\">\n    <svg class=\"spinner\" width=\"50px\" height=\"50px\" viewBox=\"0 0 66 66\" xmlns=\"http://www.w3.org/2000/svg\">\n   <circle class=\"path\" fill=\"none\" stroke-width=\"6\" stroke-linecap=\"round\" cx=\"33\" cy=\"33\" r=\"30\"></circle>\n</svg></div>",
         replace: true
     };
 }
@@ -185,9 +185,11 @@ var views;
             $scope.mapLoaded = false;
             $scope.maps = {};
             $scope.nothingFound = false;
+            $scope.loading = true;
             $scope.queryTheaters = function (near) {
                 console.log("queryTheaters near := ", near);
                 $scope.nothingFound = false;
+                $scope.loading = true;
                 if (_.isEmpty(near)) {
                     $scope.nothingFound = true;
                 }
@@ -199,8 +201,10 @@ var views;
                     else {
                         $scope.nothingFound = true;
                     }
+                    $scope.loading = false;
                 }, function () {
                     $scope.nothingFound = true;
+                    $scope.loading = false;
                 });
             };
             $scope.markerClick = function (theater) {
@@ -210,6 +214,7 @@ var views;
                 $scope.maps = maps;
                 $scope.mapLoaded = true;
                 $timeout(initFavorites(), 1000);
+                $scope.loading = false;
             });
             $scope.clearFavorites = function () {
                 favoriteService.clearAll();
