@@ -1,5 +1,6 @@
 namespace services {
     import TheaterDto = models.TheaterDto;
+    import ShowtimeDayDto = models.ShowtimeDayDto;
     export class TheaterViewService extends BaseViewService {
         constructor($injector:ng.auto.IInjectorService) {
             super($injector);
@@ -8,17 +9,18 @@ namespace services {
 
         public queryTheatersNear(near:string):ng.IPromise<TheaterDto[]> {
 
-            return this.get<TheaterDto[]>('theaters/near/' + near).then((result:ILaravelPaginatedResult<TheaterDto[]>) => {
-                return result.data;
+            var query = this.get<ILaravelPaginatedResult<TheaterDto[]>>('theaters/near/' + near + "?language=de");
+
+            return query.then(result => {
+                return result.data.data;
             })
 
         }
 
-        public getShowtimesByTheater(tid:string, near:string):ng.IPromise<TheaterDto[]> {
+        public getShowtimesByTheater(tid:string, near:string):ng.IPromise<ShowtimeDayDto[]> {
 
-            return this.get<TheaterDto[]>('theater/' + tid + '/' + near).then((result:any) => {
-                console.log("got back:=" , result);
-                return result.data;
+            return this.get<ILaravelPaginatedResult<ShowtimeDayDto[]>>('theater/' + tid + '/' + near).then(result => {
+                return result.data.data;
             });
 
         }

@@ -1,0 +1,33 @@
+<div class="modal-header" xmlns:style="http://www.w3.org/1999/xhtml">
+    <h3 class="modal-title">{{theater.name}} <small>{{theater.street}}, {{theater.city}}</small>
+        <div class="pull-right"><i class="fa fa-star"></i></div>
+    </h3>
+</div>
+<div class="modal-body">
+    <md-loader ng-show="loading"></md-loader>
+    <div class="days" ng-cloak>
+        <ul class="pagination pagination-lg">
+            <li ng-repeat="day in theaterDays|limitTo:6" ng-class="{'active':$index == selectedIndex}"
+                ng-click="showMovieDay($index); ">
+                <a href="">{{day.date|date:'EEE, dd.'}}</a>
+            </li>
+        </ul>
+        <p class="lead">Movies:</p>
+        <ul class="list-group" class="list-unstyled">
+            <li  class="list-group-item" ng-repeat="movie in dayMovies" >
+                <h5>
+                    {{movie.title}}
+                    <small> {{movie.info}}</small>
+                </h5>
+                <h6>
+                    <span ng-repeat="showtime in movie.showtimes">
+                        <span style="font-size:1.1em" class="label label-default">{{showtime}}</span>
+                    </span>
+                </h6>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="close()">Close</button>
+</div>

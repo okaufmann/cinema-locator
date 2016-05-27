@@ -10,6 +10,7 @@ namespace models {
         state:string;
         country:string;
         country_code:string;
+        coordinates:Coordinates;
         latitude:number;
         longitude:number;
         created_at:Date;

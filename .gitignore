@@ -1,4 +1,4 @@
 .idea 
 node_modules
-resources/vendor
+resources/vendor/*
 resources/assets/typescript/typings

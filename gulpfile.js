@@ -1,6 +1,5 @@
 var gulp = require('gulp');
 var Elixir = require('laravel-elixir');
-var ElixirTypescript = require('elixir-typescript');
 var shell = require('gulp-shell');
 
 /*
@@ -15,47 +14,38 @@ var shell = require('gulp-shell');
  */
 Elixir.config.sourcemaps = false;
 
-
-Elixir.extend('reload', function (message) {
-
-    new Elixir.Task('reload', function () {
-        return (
-            gulp
-                .src('')
-                .pipe(shell('echo ' + 'dummy reloader'))
-        )
-    }).watch('public/**/*.html');
-
-});
-
 var paths = {
     jquery: "vendor/jquery",
     bootstrap: "vendor/bootstrap",
+    lodash: "vendor/lodash",
     angular: "vendor/angular",
     angularSanitize: "vendor/angular-sanitize",
-    angularUiRouter: "vendor/angular-ui-router"
+    angularBootstrap: "vendor/angular-bootstrap",
+    angularUiRouter: "vendor/angular-ui-router",
+    angularGoogleMaps: "vendor/angular-google-maps",
+    angularSimpleLogger: "vendor/angular-simple-logger",
+    fontAwesome: 'vendor/font-awesome',
 }
 
 Elixir(function (mix) {
 
     mix.less("app.less");
 
-    //mix.styles([
-    //    paths.bootstrap + "/dist/css/bootstrap.css"
-    //], 'public/css/vendor.css', 'resources');
+    mix.copy('resources/' + paths.fontAwesome + '/fonts', 'public/fonts');
+
+    mix.styles([
+        paths.fontAwesome + "/css/font-awesome.min.css"
+    ], 'public/css/vendor.css', 'resources');
 
     mix.scripts([
         paths.jquery + "/dist/jquery.js",
         paths.bootstrap + "/dist/js/bootstrap.js",
+        paths.lodash + "/dist/lodash.js",
         paths.angular + "/angular.js",
         paths.angularSanitize + "/angular-sanitize.js",
-        paths.angularUiRouter + "/release/angular-ui-router.js"
+        paths.angularSimpleLogger + "/dist/angular-simple-logger.js",
+        paths.angularBootstrap + "/ui-bootstrap-tpls.js",
+        paths.angularUiRouter + "/release/angular-ui-router.js",
+        paths.angularGoogleMaps + "/dist/angular-google-maps.js"
     ], 'public/js/vendor.js', 'resources')
-
-    mix.typescript('front/app.ts', null, {outFile: 'out.js'});
-    mix.typescript('back/app.ts', 'app.js', {module: 'commonjs'});
-
-    mix.reload("reload");
-
-    mix.browserSync({proxy: '192.168.11.10:8888'});
 });

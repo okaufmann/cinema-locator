@@ -5050,14 +5050,6 @@ a.thumbnail.active {
 .alert-danger .alert-link {
   color: #b9151b;
 }
-@-webkit-keyframes progress-bar-stripes {
-  from {
-    background-position: 40px 0;
-  }
-  to {
-    background-position: 0 0;
-  }
-}
 @keyframes progress-bar-stripes {
   from {
     background-position: 40px 0;
@@ -5093,7 +5085,6 @@ a.thumbnail.active {
 }
 .progress.active .progress-bar,
 .progress-bar.active {
-  -webkit-animation: progress-bar-stripes 2s linear infinite;
   animation: progress-bar-stripes 2s linear infinite;
 }
 .progress-bar-success {
@@ -5804,13 +5795,10 @@ button.close {
   outline: 0;
 }
 .modal.fade .modal-dialog {
-  -webkit-transform: translate(0, -25%);
   transform: translate(0, -25%);
-  transition: -webkit-transform 0.3s ease-out;
   transition: transform 0.3s ease-out;
 }
 .modal.in .modal-dialog {
-  -webkit-transform: translate(0, 0);
   transform: translate(0, 0);
 }
 .modal-open .modal {
@@ -6165,29 +6153,23 @@ button.close {
 }
 @media all and (transform-3d), (-webkit-transform-3d) {
   .carousel-inner > .item {
-    transition: -webkit-transform 0.6s ease-in-out;
     transition: transform 0.6s ease-in-out;
-    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    -webkit-perspective: 1000px;
     perspective: 1000px;
   }
   .carousel-inner > .item.next,
   .carousel-inner > .item.active.right {
-    -webkit-transform: translate3d(100%, 0, 0);
     transform: translate3d(100%, 0, 0);
     left: 0;
   }
   .carousel-inner > .item.prev,
   .carousel-inner > .item.active.left {
-    -webkit-transform: translate3d(-100%, 0, 0);
     transform: translate3d(-100%, 0, 0);
     left: 0;
   }
   .carousel-inner > .item.next.left,
   .carousel-inner > .item.prev.right,
   .carousel-inner > .item.active {
-    -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
     left: 0;
   }
@@ -7049,7 +7031,6 @@ input[type="radio"]:before,
   left: 0;
   top: -3px;
   background-color: #2196F3;
-  -webkit-transform: scale(0);
   transform: scale(0);
 }
 input[type="radio"]:after,
@@ -7062,7 +7043,6 @@ input[type="radio"]:after,
 input[type="radio"]:checked:before,
 .radio input[type="radio"]:checked:before,
 .radio-inline input[type="radio"]:checked:before {
-  -webkit-transform: scale(0.5);
   transform: scale(0.5);
 }
 input[type="radio"]:disabled:checked:before,
@@ -7130,7 +7110,6 @@ input[type="checkbox"]:checked:before,
   border: 2px solid #fff;
   border-top-width: 0;
   border-left-width: 0;
-  -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
 input[type="checkbox"]:checked:after,
@@ -7344,4 +7323,56 @@ input[type="checkbox"]:disabled:checked:after,
 }
 html {
   margin-top: 60px;
+}
+.angular-google-map-container {
+  height: 400px;
+}
+.md-loader .spinner {
+  animation: rotator 1.4s linear infinite;
+  margin: 0 auto;
+  display: block;
+}
+@keyframes rotator {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(270deg);
+  }
+}
+.md-loader .path {
+  stroke-dasharray: 187;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+  animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
+}
+@keyframes colors {
+  0% {
+    stroke: #4285F4;
+  }
+  25% {
+    stroke: #0C59D4;
+  }
+  50% {
+    stroke: #0A49AE;
+  }
+  75% {
+    stroke: #062860;
+  }
+  100% {
+    stroke: #03183A;
+  }
+}
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 187;
+  }
+  50% {
+    stroke-dashoffset: 46.75;
+    transform: rotate(135deg);
+  }
+  100% {
+    stroke-dashoffset: 187;
+    transform: rotate(450deg);
+  }
 }

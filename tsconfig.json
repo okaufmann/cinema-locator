@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
         "outFile": "public/js/app.js",
