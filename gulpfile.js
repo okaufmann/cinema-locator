@@ -18,12 +18,14 @@ var paths = {
     jquery: "vendor/jquery",
     bootstrap: "vendor/bootstrap",
     lodash: "vendor/lodash",
+    underscore: "vendor/underscore",
     angular: "vendor/angular",
     angularSanitize: "vendor/angular-sanitize",
     angularBootstrap: "vendor/angular-bootstrap",
     angularUiRouter: "vendor/angular-ui-router",
     angularGoogleMaps: "vendor/angular-google-maps",
     angularSimpleLogger: "vendor/angular-simple-logger",
+    angularLocalStorage: "vendor/angular-local-storage",
     fontAwesome: 'vendor/font-awesome',
 }
 
@@ -41,11 +43,13 @@ Elixir(function (mix) {
         paths.jquery + "/dist/jquery.js",
         paths.bootstrap + "/dist/js/bootstrap.js",
         paths.lodash + "/dist/lodash.js",
+        paths.underscore + "/underscore.js",
         paths.angular + "/angular.js",
         paths.angularSanitize + "/angular-sanitize.js",
         paths.angularSimpleLogger + "/dist/angular-simple-logger.js",
         paths.angularBootstrap + "/ui-bootstrap-tpls.js",
         paths.angularUiRouter + "/release/angular-ui-router.js",
-        paths.angularGoogleMaps + "/dist/angular-google-maps.js"
+        paths.angularGoogleMaps + "/dist/angular-google-maps.js",
+        paths.angularLocalStorage + "/dist/angular-local-storage.js"
     ], 'public/js/vendor.js', 'resources')
 });

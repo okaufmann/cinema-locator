@@ -5,6 +5,7 @@ import IUrlRouterProvider = angular.ui.IUrlRouterProvider;
 import IUiViewScrollProvider = angular.ui.IUiViewScrollProvider;
 
 declare var google:any;
+declare var _:UnderscoreStatic;
 
 angular.module('cinemaLocator', [
         'cinemaLocator.config',
@@ -12,13 +13,17 @@ angular.module('cinemaLocator', [
         'ngSanitize',
         'ui.bootstrap',
         'ui.router',
+        'LocalStorageModule',
     ])
     .config(function (uiGmapGoogleMapApiProvider) {
         uiGmapGoogleMapApiProvider.configure({
             key: 'AIzaSyBWM97ybdGFr1zWA7R6w3o9IF0oCu7DWGQ',
             libraries: 'weather,geometry,visualization'
         });
-    });
+    }).config(function (localStorageServiceProvider) {
+    localStorageServiceProvider
+        .setPrefix('cinemaLocator');
+});
 
 function mdLoader():ng.IDirective {
     return {

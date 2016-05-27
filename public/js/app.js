@@ -16,12 +16,16 @@ angular.module('cinemaLocator', [
     'ngSanitize',
     'ui.bootstrap',
     'ui.router',
+    'LocalStorageModule',
 ])
     .config(function (uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
         key: 'AIzaSyBWM97ybdGFr1zWA7R6w3o9IF0oCu7DWGQ',
         libraries: 'weather,geometry,visualization'
     });
+}).config(function (localStorageServiceProvider) {
+    localStorageServiceProvider
+        .setPrefix('cinemaLocator');
 });
 function mdLoader() {
     return {
@@ -84,6 +88,69 @@ var services;
 angular.module('cinemaLocator')
     .service('theaterViewService', ['$injector',
     function ($injector) { return new services.TheaterViewService($injector); }]);
+var services;
+(function (services) {
+    var FavoriteService = (function () {
+        function FavoriteService($injector) {
+            this.keys = {
+                favourited: 'FAVORITED_THEATERS'
+            };
+            this.localStorageService = $injector.get('localStorageService');
+            this.tmpList = [];
+        }
+        FavoriteService.prototype.getTheaters = function () {
+            if (!this.tmpList || this.tmpList.length <= 0) {
+                var favs = this.localStorageService.get(this.keys.favourited);
+                this.tmpList = this.jsonDecode(favs);
+            }
+            return this.tmpList;
+        };
+        FavoriteService.prototype.isFavorit = function (theater) {
+            var theaters = this.getTheaters();
+            return _.filter(theaters, function (item) {
+                return item.tid == theater.tid;
+            }).length > 0;
+        };
+        FavoriteService.prototype.favourite = function (theater) {
+            if (!this.isFavorit(theater)) {
+                var theaters = this.getTheaters();
+                if (!theaters) {
+                    theaters = [];
+                }
+                theaters.push(theater);
+                this.save(theaters);
+            }
+        };
+        FavoriteService.prototype.unfavourite = function (theater) {
+            if (this.isFavorit(theater)) {
+                var theaters = this.getTheaters();
+                theaters = _.reject(theaters, function (item) {
+                    return item.tid == theater.tid;
+                });
+                this.save(theaters);
+            }
+        };
+        FavoriteService.prototype.clearAll = function () {
+            this.localStorageService.remove(this.keys.favourited);
+        };
+        FavoriteService.prototype.save = function (theaters) {
+            this.localStorageService.remove(this.keys.favourited);
+            this.localStorageService.set(this.keys.favourited, this.jsonEncode(theaters));
+            this.tmpList = theaters;
+        };
+        FavoriteService.prototype.jsonEncode = function (obj) {
+            return JSON.stringify(obj);
+        };
+        FavoriteService.prototype.jsonDecode = function (text) {
+            return JSON.parse(text);
+        };
+        return FavoriteService;
+    }());
+    services.FavoriteService = FavoriteService;
+})(services || (services = {}));
+angular.module('cinemaLocator')
+    .service('favoriteService', ['$injector',
+    function ($injector) { return new services.FavoriteService($injector); }]);
 var views;
 (function (views) {
     var home;
@@ -111,9 +178,9 @@ var views;
             templateUrl: 'templates/theaters.html',
             controller: ViewModel
         };
-        function ViewModel($scope, theaterViewService, uiGmapGoogleMapApi, $uibModal) {
+        function ViewModel($scope, theaterViewService, uiGmapGoogleMapApi, $uibModal, favoriteService, $timeout) {
             $scope.theaters = [];
-            $scope.near = 'Interlaken';
+            $scope.near = '';
             $scope.map = { control: {}, center: { latitude: 46.680385, longitude: 8.1117656 }, zoom: 8 };
             $scope.mapLoaded = false;
             $scope.maps = {};
@@ -123,13 +190,7 @@ var views;
                 theaterViewService.queryTheatersNear(near).then(function (theaters) {
                     if (theaters && theaters.length > 0) {
                         $scope.theaters = theaters;
-                        var latlngbounds = new $scope.maps.LatLngBounds();
-                        for (var i = 0; i < $scope.theaters.length; i++) {
-                            var cords = $scope.theaters[i].coordinates;
-                            var latLng = new google.maps.LatLng(cords.latitude, cords.longitude);
-                            latlngbounds.extend(latLng);
-                        }
-                        $scope.map.control.getGMap().fitBounds(latlngbounds);
+                        setBounds();
                     }
                 });
             };
@@ -139,7 +200,28 @@ var views;
             uiGmapGoogleMapApi.then(function (maps) {
                 $scope.maps = maps;
                 $scope.mapLoaded = true;
+                $timeout(initFavorites(), 1000);
             });
+            $scope.clearFavorites = function () {
+                favoriteService.clearAll();
+                $scope.theaters = null;
+            };
+            function initFavorites() {
+                var theaters = favoriteService.getTheaters();
+                if (theaters && theaters.length > 0) {
+                    $scope.theaters = theaters;
+                }
+            }
+            function setBounds() {
+                var latlngbounds = new $scope.maps.LatLngBounds();
+                for (var i = 0; i < $scope.theaters.length; i++) {
+                    var cords = $scope.theaters[i].coordinates;
+                    var latLng = new google.maps.LatLng(cords.latitude, cords.longitude);
+                    latlngbounds.extend(latLng);
+                }
+                console.log($scope.map.control);
+                $scope.map.control.getGMap().fitBounds(latlngbounds);
+            }
             function showShowtimes(theater) {
                 var modalInstance = $uibModal.open({
                     templateUrl: 'templates/showtimesModal.html',
@@ -150,21 +232,37 @@ var views;
                         }
                     }
                 });
+                modalInstance.result.then(function () {
+                    $scope.favoritedTheaters = favoriteService.getTheaters();
+                }, function () {
+                });
             }
             ;
         }
-        function ModalCtrl($scope, theaterViewService, $uibModalInstance, theater) {
+        function ModalCtrl($scope, theaterViewService, $uibModalInstance, favoriteService, theater) {
             $scope.theater = theater;
             $scope.selectedIndex = 0;
             $scope.loading = true;
+            $scope.currentFavorit = false;
             theaterViewService.getShowtimesByTheater(theater.tid, theater.city).then(function (days) {
                 $scope.theaterDays = days;
                 $scope.showMovieDay(0);
                 $scope.loading = false;
             });
+            $scope.currentFavorit = favoriteService.isFavorit(theater);
             $scope.showMovieDay = function (index) {
                 $scope.selectedIndex = index;
                 $scope.dayMovies = $scope.theaterDays[index].movies;
+            };
+            $scope.toggleFavorite = function (theater) {
+                if (favoriteService.isFavorit(theater)) {
+                    favoriteService.unfavourite(theater);
+                    $scope.currentFavorit = false;
+                }
+                else {
+                    favoriteService.favourite(theater);
+                    $scope.currentFavorit = true;
+                }
             };
             $scope.close = function () {
                 $uibModalInstance.close();

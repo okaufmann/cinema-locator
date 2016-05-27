@@ -23,6 +23,8 @@
     "angular-ui-router": "^0.2.18",
     "angular-google-maps": "^2.3.3",
     "angular-bootstrap": "^1.3.3",
-    "font-awesome": "^4.6.3"
+    "font-awesome": "^4.6.3",
+    "angular-local-storage": "^0.2.7",
+    "underscore": "^1.8.3"
   }
 }

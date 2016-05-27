@@ -1,10 +1,17 @@
 <div class="modal-header" xmlns:style="http://www.w3.org/1999/xhtml">
-    <h3 class="modal-title">{{theater.name}} <small>{{theater.street}}, {{theater.city}}</small>
-        <div class="pull-right"><i class="fa fa-star"></i></div>
+    <h3 class="modal-title">{{theater.name}}
+        <small>{{theater.street}}, {{theater.city}}</small>
+        <div class="pull-right">
+            <button class="btn btn-default"
+            ng-click="toggleFavorite(theater)">
+                <i class="fa fa-2x"
+                ng-class="{'fa-star-o':!currentFavorit, 'fa-star':currentFavorit}"></i></button>
+        </div>
     </h3>
 </div>
 <div class="modal-body">
     <md-loader ng-show="loading"></md-loader>
+    <p class="lead">Showtimes:</p>
     <div class="days" ng-cloak>
         <ul class="pagination pagination-lg">
             <li ng-repeat="day in theaterDays|limitTo:6" ng-class="{'active':$index == selectedIndex}"
@@ -12,9 +19,10 @@
                 <a href="">{{day.date|date:'EEE, dd.'}}</a>
             </li>
         </ul>
-        <p class="lead">Movies:</p>
+        <br>
+        {{theaterDays[selectedIndex].date|date:'EEE, dd.MM.yyyy'}}:
         <ul class="list-group" class="list-unstyled">
-            <li  class="list-group-item" ng-repeat="movie in dayMovies" >
+            <li class="list-group-item" ng-repeat="movie in dayMovies">
                 <h5>
                     {{movie.title}}
                     <small> {{movie.info}}</small>

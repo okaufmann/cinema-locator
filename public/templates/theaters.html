@@ -11,14 +11,18 @@
                        tooltip-enable="nothingFound">
             </div>
             <div class="form-group form-group-lg col-md-6 col-md-offset-5">
-                <button ng-disabled="!mapLoaded" class="btn btn-primary btn-lg" ng-click="queryTheaters(near)">Go for
-                                                                                                               it!
+                <button ng-disabled="!mapLoaded"
+                        class="btn btn-primary btn-lg"
+                        ng-click="queryTheaters(near)">Go fo it!
                 </button>
+
             </div>
         </form>
         <div class="clearfix"></div>
         <div class="result">
-            <ui-gmap-google-map center='map.center' zoom='map.zoom' control="map.control">
+            <ui-gmap-google-map center='map.center'
+                                zoom='map.zoom'
+                                control="map.control">
                 <ui-gmap-marker ng-repeat="theater in theaters"
                                 idKey='1'
                                 coords='theater.coordinates'
@@ -26,6 +30,12 @@
                 </ui-gmap-marker>
             </ui-gmap-google-map>
         </div>
+        <hr />
+        <button type="button"
+                uib-tooltip="Clear favorite theaters..."
+                ng-click="clearFavorites()"
+                class="btn btn-sm btn-default"
+        ><i class="fa fa-refresh"></i></button>
 
     </div>
 </div>
