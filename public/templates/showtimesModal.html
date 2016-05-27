@@ -3,16 +3,17 @@
         <small>{{theater.street}}, {{theater.city}}</small>
         <div class="pull-right">
             <button class="btn btn-default"
-            ng-click="toggleFavorite(theater)">
+                    ng-click="toggleFavorite(theater)">
                 <i class="fa fa-2x"
-                ng-class="{'fa-star-o':!currentFavorit, 'fa-star':currentFavorit}"></i></button>
+                   ng-class="{'fa-star-o':!currentFavorit, 'fa-star':currentFavorit}"></i></button>
         </div>
     </h3>
 </div>
 <div class="modal-body">
     <md-loader ng-show="loading"></md-loader>
-    <p class="lead">Showtimes:</p>
     <div class="days" ng-cloak>
+        <p class="lead">Showtimes:</p>
+
         <ul class="pagination pagination-lg">
             <li ng-repeat="day in theaterDays|limitTo:6" ng-class="{'active':$index == selectedIndex}"
                 ng-click="showMovieDay($index); ">

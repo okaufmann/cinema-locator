@@ -187,11 +187,20 @@ var views;
             $scope.nothingFound = false;
             $scope.queryTheaters = function (near) {
                 console.log("queryTheaters near := ", near);
+                $scope.nothingFound = false;
+                if (_.isEmpty(near)) {
+                    $scope.nothingFound = true;
+                }
                 theaterViewService.queryTheatersNear(near).then(function (theaters) {
                     if (theaters && theaters.length > 0) {
                         $scope.theaters = theaters;
                         setBounds();
                     }
+                    else {
+                        $scope.nothingFound = true;
+                    }
+                }, function () {
+                    $scope.nothingFound = true;
                 });
             };
             $scope.markerClick = function (theater) {

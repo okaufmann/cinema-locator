@@ -48,12 +48,22 @@ namespace views.theaters {
         $scope.queryTheaters = (near:string):void => {
             console.log("queryTheaters near := ", near);
 
+            $scope.nothingFound = false;
+
+            if(_.isEmpty(near)){
+                $scope.nothingFound = true;
+            }
+
             theaterViewService.queryTheatersNear(near).then(theaters => {
 
                 if (theaters && theaters.length > 0) {
                     $scope.theaters = theaters;
                     setBounds();
+                }else{
+                    $scope.nothingFound = true;
                 }
+            },() => {
+                $scope.nothingFound = true;
             });
         }
 
